@@ -11,7 +11,7 @@ class nova::compute(
   $vncproxy_path                 = '/vnc_auto.html',
   $virtio_nic                    = false,
   $hard_reboot_guest_on_service_restart = false,
-  $resume_guests_state_on_host_boot = true,
+  $resume_guests_state_on_host_boot = true
  ) {
 
   include nova::params
