@@ -9,7 +9,9 @@ class nova::compute(
   $vncproxy_protocol             = 'http',
   $vncproxy_port                 = '6080',
   $vncproxy_path                 = '/vnc_auto.html',
-  $virtio_nic                    = false
+  $virtio_nic                    = false,
+  $hard_reboot_guest_on_service_restart = false,
+  $resume_guests_state_on_host_boot = true
  ) {
 
   include nova::params
@@ -49,5 +51,6 @@ class nova::compute(
     # Enable the virtio network card for instances
     nova_config { 'libvirt_use_virtio_for_bridges': value => 'True' }
   }
-
+  nova_config { 'start_guests_on_host_boot': value => $hard_reboot_guest_on_service_restart }
+  nova_config { 'resume_guests_state_on_host_boot': value => $resume_guests_state_on_host_boot }
 }

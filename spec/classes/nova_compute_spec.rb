@@ -24,6 +24,8 @@ describe 'nova::compute' do
       it { should contain_nova_config('novncproxy_base_url').with_value(
         'http://127.0.0.1:6080/vnc_auto.html'
       ) }
+      it { should contain_nova_config('start_guests_on_host_boot').with_value('false') }
+      it { should contain_nova_config('resume_guests_state_on_host_boot').with_value('true') }
 
       it { should contain_service('nova-compute').with(
         'name'    => 'nova-compute',
@@ -63,6 +65,22 @@ describe 'nova::compute' do
         it { should contain_nova_config('vncserver_proxyclient_address').with('127.0.0.1')}
         it { should_not contain_nova_config('novncproxy_base_url') }
 
+      end
+      describe 'with hard_reboot_guest_on_service_restart set to true' do
+        let :params do
+          {:start_guests_on_host_boot => true}
+        end
+        
+        it { should contain_nova_config('start_guests_on_host_boot').with_value('true') }
+        
+      end
+      describe 'with resume_guests_state_on_host_boot set to false' do
+        let :params do
+          {:start_guests_on_host_boot => false}
+        end
+        
+        it { should contain_nova_config('start_guests_on_host_boot').with_value('false') }
+        
       end
       describe 'with package version' do
         let :params do
